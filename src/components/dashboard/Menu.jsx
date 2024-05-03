@@ -2,7 +2,7 @@ import * as React from "react"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
-import { Home, MeetingRoom, Movie } from "@mui/icons-material"
+import { EditCalendar, Home, LocalMovies, MeetingRoom, Movie } from "@mui/icons-material"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 
@@ -20,9 +20,9 @@ export default function Menu({ mobile, toggleDrawer }) {
     <>
       <ListItemButton component={Link} to="/" onClick={closeMenu}>
         <ListItemIcon>
-          <Home sx={{ color: "primary.dark" }} />
+          <LocalMovies sx={{ color: "primary.dark" }} />
         </ListItemIcon>
-        <ListItemText primary="Inicio" />
+        <ListItemText primary="Cartelera" />
       </ListItemButton>
       {role === 'ROLE_ADMIN' &&
         <>
@@ -37,6 +37,12 @@ export default function Menu({ mobile, toggleDrawer }) {
               <MeetingRoom sx={{ color: "primary.dark" }} />
             </ListItemIcon>
             <ListItemText primary="Salas" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/schedule" onClick={closeMenu}>
+            <ListItemIcon>
+              <EditCalendar sx={{ color: "primary.dark" }} />
+            </ListItemIcon>
+            <ListItemText primary="Horarios de proyección" />
           </ListItemButton>
         </>
       }

@@ -5,6 +5,7 @@ import Dashboard from '../components/dashboard/Dashboard'
 import Home from '../pages/home/Home'
 import Movies from '../pages/movies/Movies'
 import Rooms from '../pages/rooms/Rooms'
+import Schedule from '../pages/schedule/Schedule'
 
 export default function Routes() {
 
@@ -36,6 +37,10 @@ export default function Routes() {
 					{
 						path: "/rooms",
 						element: <Rooms />
+					},
+					{
+						path: "/schedule",
+						element: <Schedule />
 					}
 				] : [])
 			},
