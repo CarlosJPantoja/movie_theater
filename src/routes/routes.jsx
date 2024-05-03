@@ -4,6 +4,7 @@ import Login from '../pages/login/Login'
 import Dashboard from '../components/dashboard/Dashboard'
 import Home from '../pages/home/Home'
 import Movies from '../pages/movies/Movies'
+import Rooms from '../pages/rooms/Rooms'
 
 export default function Routes() {
 
@@ -31,6 +32,10 @@ export default function Routes() {
 					{
 						path: "/movies",
 						element: <Movies />
+					},
+					{
+						path: "/rooms",
+						element: <Rooms />
 					}
 				] : [])
 			},

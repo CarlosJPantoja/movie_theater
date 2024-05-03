@@ -103,6 +103,7 @@ const MovieForm = ({ edit, setEdit, movie, setMovie, getMovies }) => {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        inputProps={{ accept: "image/*" }}
                     />
                 </Grid>
                 <Grid item xs={12} sm={12}>

@@ -156,7 +156,7 @@ export default function Dashboard() {
                                 <MenuIcon />
                             </IconButton>
                         }
-                        <img src={logo} alt="Logo" width="100px" hidden={open ? true : false} style={{ marginLeft: token ? '45px' : '0px' }} />
+                        <img src={logo} alt="Logo" width="100px" hidden={open ? true : false} style={{ marginLeft: token && !mobile ? '45px' : '0px' }} />
                         {token ?
                             <IconButton color="primary" onClick={handleLogout} sx={{ marginLeft: 'auto' }}>
                                 <Logout />
