@@ -11,12 +11,12 @@ import IconButton from '@mui/material/IconButton'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from '../../util/axios'
 import swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { login, clear } from '../../features/auth/authSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../features/auth/authSlice'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Copyright from '../../components/Copyright'
 import background from '../../assets/background.jpg'
@@ -24,8 +24,8 @@ import logo from '../../assets/logo.png'
 import theme from '../../util/theme'
 
 const Login = () => {
+
     const [showPassword, setShowPassword] = useState(false)
-    const session = useSelector(state => state.movie_theater_auth.session)
     const MySwal = withReactContent(swal)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -44,7 +44,7 @@ const Login = () => {
                     text: error.response.data.message,
                     icon: 'error',
                     confirmButtonText: 'Volver a intentar',
-                    confirmButtonColor: '#0464ac'
+                    confirmButtonColor: '#0288d1'
                 })
             })
     }
@@ -52,34 +52,6 @@ const Login = () => {
     const handleShowPassword = () => {
         setShowPassword(!showPassword)
     }
-
-    const toast = MySwal.mixin({
-        toast: true,
-        position: 'bottom-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', MySwal.stopTimer)
-            toast.addEventListener('mouseleave', MySwal.resumeTimer)
-        },
-    })
-
-    useEffect(() => {
-        if (session === 'expired') {
-            toast.fire({
-                icon: 'warning',
-                title: 'Sesión caducada',
-            })
-        }
-        if (session === 'logout') {
-            toast.fire({
-                icon: 'success',
-                title: 'Sesión finalizada',
-            })
-        }
-        dispatch(clear())
-    }, [])
 
     return (
         <ThemeProvider theme={theme}>
