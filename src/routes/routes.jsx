@@ -6,6 +6,7 @@ import Home from '../pages/home/Home'
 import Movies from '../pages/movies/Movies'
 import Rooms from '../pages/rooms/Rooms'
 import Schedule from '../pages/schedule/Schedule'
+import ScheduleSelector from '../pages/home/components/ScheduleSelector'
 
 export default function Routes() {
 
@@ -28,6 +29,10 @@ export default function Routes() {
 					{
 						path: "/",
 						element: <Home />
+					},
+					{
+						path: "/:movieId",
+						element: <ScheduleSelector />
 					}
 				].concat(role === 'ROLE_ADMIN' ? [
 					{

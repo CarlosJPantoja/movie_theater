@@ -234,10 +234,6 @@ export default function Dashboard() {
                 <Box
                     component="main"
                     sx={{
-                        backgroundColor: (theme) =>
-                            theme.palette.mode === 'light'
-                                ? theme.palette.grey[100]
-                                : theme.palette.grey[900],
                         flexGrow: 1,
                         height: '100vh',
                         overflow: 'auto',
@@ -245,9 +241,7 @@ export default function Dashboard() {
                 >
                     <Toolbar />
                     <Container maxWidth='100%' sx={{ p: 2 }}>
-                        <Box component={Paper} xs={12} sx={{ p: 2 }} align="center">
-                            <Outlet />
-                        </Box>
+                        <Outlet />
                         <Copyright sx={{ mt: 2 }} />
                     </Container>
                 </Box>

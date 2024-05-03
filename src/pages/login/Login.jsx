@@ -36,7 +36,7 @@ const Login = () => {
         axios.post('/auth/authenticate', { username: data.get('username'), password: data.get('password') })
             .then(response => {
                 dispatch(login(response.data))
-                navigate('/dashboard')
+                navigate('/')
             })
             .catch((error) => {
                 MySwal.fire({

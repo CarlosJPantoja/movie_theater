@@ -1,7 +1,7 @@
 import { Add, MeetingRoom, Movie } from "@mui/icons-material"
 import Header from "../../components/Header"
 import Spinner from "../../components/Spinner"
-import { Fab, Grid } from "@mui/material"
+import { Box, Fab, Grid, Paper } from "@mui/material"
 import { useEffect, useState } from "react"
 import axios from "../../util/axios"
 import Swal from "sweetalert2"
@@ -87,7 +87,7 @@ const Rooms = () => {
     }, [])
 
     return (
-        <>
+        <Box component={Paper} xs={12} sx={{ p: 2 }} align="center" elevation={3}>
             <Header title={!room ? "Salas" : edit ? "Editar sala" : 'Añadir sala'} />
             {!room ?
                 <>
@@ -111,7 +111,7 @@ const Rooms = () => {
                 :
                 <RoomForm room={room} setRoom={setRoom} edit={edit} setEdit={setEdit} getRooms={getRooms} />
             }
-        </>
+        </Box>
     )
 }
 

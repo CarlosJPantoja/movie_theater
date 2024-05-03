@@ -1,7 +1,7 @@
 import { Add, Movie } from "@mui/icons-material"
 import Header from "../../components/Header"
 import Spinner from "../../components/Spinner"
-import { Fab, Grid } from "@mui/material"
+import { Box, Fab, Grid, Paper } from "@mui/material"
 import { useEffect, useState } from "react"
 import MovieForm from "./components/MovieForm"
 import axios from "../../util/axios"
@@ -77,7 +77,7 @@ const Movies = () => {
     }, [])
 
     return (
-        <>
+        <Box component={Paper} xs={12} sx={{ p: 2 }} align="center" elevation={3}>
             <Header title={!movie ? "Películas" : edit ? "Editar pelicula" : 'Añadir pelicula'} />
             {!movie ?
                 <>
@@ -101,7 +101,7 @@ const Movies = () => {
                 :
                 <MovieForm movie={movie} setMovie={setMovie} edit={edit} setEdit={setEdit} getMovies={getMovies} />
             }
-        </>
+        </Box>
     )
 }
 
