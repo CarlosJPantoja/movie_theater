@@ -6,10 +6,11 @@ import Home from '../pages/home/Home'
 import Movies from '../pages/movies/Movies'
 import Rooms from '../pages/rooms/Rooms'
 import Schedule from '../pages/schedule/Schedule'
-import ScheduleSelector from '../pages/home/components/ScheduleSelector'
+import Reservations from '../pages/reservations/Reservations'
 
 export default function Routes() {
 
+	const token = useSelector(state => state.movie_theater_auth.token)
 	const role = useSelector(state => state.movie_theater_auth.role)
 
 	const router = createBrowserRouter(
@@ -29,12 +30,15 @@ export default function Routes() {
 					{
 						path: "/",
 						element: <Home />
-					},
-					{
-						path: "/:movieId",
-						element: <ScheduleSelector />
 					}
-				].concat(role === 'ROLE_ADMIN' ? [
+				].concat(token ?
+					[
+						{
+							path: "/reservations",
+							element: <Reservations />
+						}
+					] : []
+				).concat(role === 'ROLE_ADMIN' ? [
 					{
 						path: "/movies",
 						element: <Movies />

@@ -12,7 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import Menu from './Menu'
 import { Outlet } from 'react-router-dom'
-import { Grid, Paper, useMediaQuery } from '@mui/material'
+import { Grid, useMediaQuery } from '@mui/material'
 import Copyright from '../Copyright'
 import { Login, Logout } from '@mui/icons-material'
 import { clear, logout } from '../../features/auth/authSlice'
@@ -96,9 +96,6 @@ export default function Dashboard() {
 
     const handleLogout = () => {
         dispatch(logout())
-        if (open) {
-            setOpen(false)
-        }
         navigate('/')
     }
 
@@ -129,6 +126,14 @@ export default function Dashboard() {
         }
         dispatch(clear())
     }, [session])
+
+    useEffect(() => {
+        if (!token) {
+            if (open) {
+                setOpen(false)
+            }
+        }
+    }, [token])
 
     return (
         <ThemeProvider theme={theme}>

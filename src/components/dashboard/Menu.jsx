@@ -2,12 +2,13 @@ import * as React from "react"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
-import { EditCalendar, Home, LocalMovies, MeetingRoom, Movie } from "@mui/icons-material"
+import { Bookmark, EditCalendar, LocalMovies, MeetingRoom, Movie } from "@mui/icons-material"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 export default function Menu({ mobile, toggleDrawer }) {
 
+  const token = useSelector((state) => state.movie_theater_auth.token)
   const role = useSelector((state) => state.movie_theater_auth.role)
 
   const closeMenu = () => {
@@ -24,6 +25,14 @@ export default function Menu({ mobile, toggleDrawer }) {
         </ListItemIcon>
         <ListItemText primary="Cartelera" />
       </ListItemButton>
+      {token &&
+        <ListItemButton component={Link} to="/reservations" onClick={closeMenu}>
+          <ListItemIcon>
+            <Bookmark sx={{ color: "primary.dark" }} />
+          </ListItemIcon>
+          <ListItemText primary="Reservaciones" />
+        </ListItemButton>
+      }
       {role === 'ROLE_ADMIN' &&
         <>
           <ListItemButton component={Link} to="/movies" onClick={closeMenu}>
@@ -42,7 +51,7 @@ export default function Menu({ mobile, toggleDrawer }) {
             <ListItemIcon>
               <EditCalendar sx={{ color: "primary.dark" }} />
             </ListItemIcon>
-            <ListItemText primary="Horarios de proyección" />
+            <ListItemText primary="Horarios" />
           </ListItemButton>
         </>
       }

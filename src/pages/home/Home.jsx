@@ -2,17 +2,27 @@ import { useEffect, useState } from "react"
 import axios from "../../util/axios"
 import Spinner from "../../components/Spinner"
 import { Chair, Close, LocalMovies, Save } from "@mui/icons-material"
-import { Box, CardActionArea, Chip, Fab, Grid, IconButton, Paper, Typography } from "@mui/material"
+import { Alert, Box, CardActionArea, Chip, Fab, Grid, IconButton, Paper, Typography } from "@mui/material"
 import withReactContent from "sweetalert2-react-content"
 import Swal from "sweetalert2"
+import { useSelector } from "react-redux"
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const date = new Intl.DateTimeFormat('es-CO', {
-    dateStyle: 'long',
+    dateStyle: 'medium',
+    timeStyle: 'short'
+})
+
+
+const dateFull = new Intl.DateTimeFormat('es-CO', {
+    dateStyle: 'full',
+    timeStyle: 'short'
 })
 
 const Home = () => {
+
+    const token = useSelector(state => state.movie_theater_auth.token)
 
     const MySwal = withReactContent(Swal)
 
@@ -50,7 +60,9 @@ const Home = () => {
         const seatStatus = selectedSchedule.distribution[row][column]
         const newStatus = seatStatus === "active" ? "busy" : seatStatus === "busy" && "active"
         const newSeats = [...selectedSchedule.distribution]
-        newSeats[row][column] = newStatus
+        if (token) {
+            newSeats[row][column] = newStatus
+        }
         if (newStatus === "busy") {
             setSelectedSeats([...selectedSeats, { row, column }])
         }
@@ -85,9 +97,10 @@ const Home = () => {
             id: selectedSchedule.id,
             dateTime: selectedSchedule.dateTime,
             movie: selectedSchedule.movie.id,
-            room: selectedSchedule.room.id,
+            room: selectedSchedule.room.number,
             distribution: selectedSchedule.distribution
         }
+
         axios.post('/schedule/reservate', postSchudule)
             .then(response => {
                 MySwal.fire({
@@ -96,11 +109,13 @@ const Home = () => {
                     icon: 'success',
                     confirmButtonText: 'Aceptar',
                     confirmButtonColor: '#0288d1'
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        handleCancel()
+                    }
                 })
-                handleCancel()
             })
     }
-
 
     useEffect(() => {
         if (!selectedSchedule) return
@@ -160,7 +175,7 @@ const Home = () => {
                                 .map(schedule => (
                                     <Box xs={12} key={schedule.id} align="center">
                                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} key={schedule.id} marginTop={1}>
-                                            <Chip color="primary" onClick={() => handleSelectSchedule(schedule)} label={date.format(new Date(schedule.dateTime))} key={schedule.id} />
+                                            <Chip color="primary" onClick={() => handleSelectSchedule(schedule)} label={dateFull.format(new Date(schedule.dateTime))} key={schedule.id} />
                                         </Grid>
                                     </Box>
                                 ))
@@ -188,7 +203,7 @@ const Home = () => {
                                                     <IconButton size="small" key={column}
                                                         color={seat === "active" ? "success" : seat === "inactive" ? "error" : seat === "busy" ? "info" : "secondary"}
                                                         onClick={() => handleSeat(row, column)}
-                                                        disabled={seat === "empty" || (!(seat === "active") && !(seat === "busy"))}
+                                                        disabled={(!(seat === "active") && !(seat === "busy"))}
                                                         sx={{
                                                             ":disabled": {
                                                                 color: seat === "empty" ? "white" : "inherit"
@@ -201,16 +216,24 @@ const Home = () => {
                                             </Grid>
                                         ))}
                                         <Grid container item xs={12} alignContent={"center"} spacing={2} marginTop={1}>
-                                            <Grid container item xs={6} sm={6} justifyContent={"right"}>
-                                                <Fab color="info" size="medium" aria-label="save" disabled={selectedSeats.length === 0} onClick={handleSave}>
-                                                    <Save />
-                                                </Fab>
-                                            </Grid>
-                                            <Grid container item xs={6} sm={6} justifyContent={"left"} onClick={handleCancel}>
-                                                <Fab color="error" size="medium" aria-label="cancel">
-                                                    <Close />
-                                                </Fab>
-                                            </Grid>
+                                            {token ?
+                                                <>
+                                                    <Grid container item xs={6} sm={6} justifyContent={"right"}>
+                                                        <Fab color="info" size="medium" aria-label="save" disabled={selectedSeats.length === 0} onClick={handleSave}>
+                                                            <Save />
+                                                        </Fab>
+                                                    </Grid>
+                                                    <Grid container item xs={6} sm={6} justifyContent={"left"} onClick={handleCancel}>
+                                                        <Fab color="error" size="medium" aria-label="cancel">
+                                                            <Close />
+                                                        </Fab>
+                                                    </Grid>
+                                                </>
+                                                :
+                                                <Grid container item xs={12} sm={12} justifyContent={"center"}>
+                                                    <Alert severity="warning">Debes iniciar sesión para reservar</Alert>
+                                                </Grid>
+                                            }
                                         </Grid>
                                     </Grid>
                                 </Grid>
